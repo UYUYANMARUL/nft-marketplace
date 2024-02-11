@@ -1,0 +1,3 @@
+[submodule "backend"]
+	path = packages/backend
+	url = https://github.com/UYUYANMARUL/nft-marketplace-backend.git

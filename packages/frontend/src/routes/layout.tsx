@@ -1,5 +1,15 @@
-import { component$, Slot } from "@builder.io/qwik";
-import type { RequestHandler } from "@builder.io/qwik-city";
+import {
+  component$,
+  createContextId,
+  Slot,
+  useContextProvider,
+  useStore,
+  useVisibleTask$,
+} from "@builder.io/qwik";
+import { routeLoader$, type RequestHandler } from "@builder.io/qwik-city";
+import { Navbar } from "~/components/Navbar";
+import { isServer } from "@builder.io/qwik/build";
+import { RedirectMessage } from "@builder.io/qwik-city/middleware/request-handler";
 
 export const onGet: RequestHandler = async ({ cacheControl }) => {
   // Control caching for this request for best performance and to reduce hosting costs:
@@ -11,7 +21,41 @@ export const onGet: RequestHandler = async ({ cacheControl }) => {
     maxAge: 5,
   });
 };
+//
+// export const onRequest: RequestHandler = async ({ pathname, redirect }) => {
+//   if (pathname == "/") {
+//     throw redirect(308, "/asd");
+//   }
+// };
+//
+export const GuardedRoutes = [];
 
+interface UserInfo {
+  publicAdress: string;
+  signature: string;
+  username: string;
+}
+
+const useAuthGuard = routeLoader$(async (req) => {
+  if (req.pathname == "/a/") throw req.redirect(308, "/asd");
+});
+
+export const UserContext = createContextId<UserInfo>("userContext");
+
+export const GuardedRoutesContext = createContextId<Array<String>>(
+  "guardedRoutesContext",
+);
 export default component$(() => {
-  return <Slot />;
+  useAuthGuard();
+  const userInfo = useStore<UserInfo>({
+    publicAdress: "",
+    signature: "",
+    username: "",
+  });
+  useContextProvider(UserContext, userInfo);
+  return (
+    <>
+      <Navbar /> <Slot />
+    </>
+  );
 });
