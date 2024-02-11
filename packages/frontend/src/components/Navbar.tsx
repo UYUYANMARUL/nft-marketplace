@@ -1,5 +1,6 @@
 import { component$, useSignal, $, useStore } from "@builder.io/qwik";
 import { Link } from "@builder.io/qwik-city";
+import { Contract, ethers, parseEther } from "ethers";
 
 export type NftCardProps = {
   img: string;
@@ -14,26 +15,59 @@ export const Navbar = component$(() => {
   });
 
   const connectToMetaMask = $(async () => {
-    const ethereum = window.ethereum;
-    if (ethereum) {
-      const wallet = await ethereum.request({
-        method: "eth_requestAccounts",
-      });
-      const sign = await ethereum.request({
-        method: "personal_sign",
-        params: [
-          "0x57656c636f6d6520746a20436572746966696361746520444170702e204b696e646c79207369676e2074686973206d65737361676520746f2070726f636565642e20546869732070726f63656475726520646f6573206e6f74207265717569726520616e792045544820746f2070726f636573732e",
-          wallet[0],
-        ],
-      });
+    // const ethereum = window.ethereum;
+    // const provider = new ethers.JsonRpcProvider("https://rpc2.sepolia.org");
 
-      connection.account = wallet[0];
-      connection.status = true;
+    // Get write access as an account by getting the signer
+    // const signer = await provider.getSigner();
+    const provider = new ethers.BrowserProvider(window.ethereum);
+    // const provider = ethers.getDefaultProvider();
 
-      console.log("Welcome Guest");
-      console.log(connection.account);
-      console.log(sign);
-    }
+    // It also provides an opportunity to request access to write
+    // operations, which will be performed by the private key
+    // that MetaMask manages for the user.
+    const signer = await provider.getSigner();
+
+    // console.log(signer);
+    // const tx = await signer.sendTransaction({
+    //   to: "0x1bb98172f268F6e3F966c16D4988e0837ADf89Ce",
+    //   value: parseEther("0.2"),
+    // });
+    const abi = [
+      "function stake() public payable",
+      "function timeLeft() public view returns (uint256)",
+      "function execute() public returns (uint256)",
+    ];
+
+    // Create a contract; connected to a Provider, so it may
+    // only access read-only methods (like view and pure)
+    const contract = new Contract(
+      "0xC84D74BbfBbBdc927ff00fb969F65A5aa860F597",
+      abi,
+      signer,
+    );
+
+    const tx = await contract.stake({ value: ethers.parseEther("0.1") });
+    // await tx.wait();
+    // if (ethereum) {
+    //   const wallet = await ethereum.request({
+    //     method: "eth_requestAccounts",
+    //   });
+    //   const sign = await ethereum.request({
+    //     method: "personal_sign",
+    //     params: [
+    //       "0x57656c636f6d6520746a20436572746966696361746520444170702e204b696e646c79207369676e2074686973206d65737361676520746f2070726f636565642e20546869732070726f63656475726520646f6573206e6f74207265717569726520616e792045544820746f2070726f636573732e",
+    //       wallet[0],
+    //     ],
+    //   });
+    //
+    //   connection.account = wallet[0];
+    //   connection.status = true;
+    //
+    //   console.log("Welcome Guest");
+    //   console.log(connection.account);
+    //   console.log(sign);
+    // }
   });
 
   return (
