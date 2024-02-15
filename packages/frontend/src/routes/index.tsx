@@ -8,7 +8,9 @@ import { NftGrid } from "~/components/NftGrid";
 //   [publicProvider()],
 // );
 //
-export const useData = routeLoader$(() => videos);
+export const useData = routeLoader$(() => {
+  return videos;
+});
 
 export default component$(() => {
   const NftGridData = useData();

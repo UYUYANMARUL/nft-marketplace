@@ -1,14 +1,12 @@
-import { component$,  useStore, useStylesScoped$ } from "@builder.io/qwik";
+import { component$, useStore, useStylesScoped$ } from "@builder.io/qwik";
 import { NftCard, NftCardProps } from "./NftCard";
 
-
-
 type NftGridProps = {
-  data:NftCardProps[]
-}
+  data: NftCardProps[];
+};
 
 export const NftGrid = component$<NftGridProps>((props) => {
-useStylesScoped$(`
+  useStylesScoped$(`
 .grid-container {
   /**
    * User input values.
@@ -27,23 +25,17 @@ useStylesScoped$(`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(max(var(--grid-item--min-width), var(--grid-item--max-width)), 1fr));
   grid-gap: var(--grid-layout-gap);
-}`)
+}`);
 
-//grid gap-6 grid-cols-[repeat(auto-fit,minmax(320px,1fr))] max-w-screen-2xl m-auto
+  //grid gap-6 grid-cols-[repeat(auto-fit,minmax(320px,1fr))] max-w-screen-2xl m-auto
 
   return (
     <>
-
-  <div
-    class="grid-container max-w-screen-2xl m-auto"
-  >
-        {props.data.map((NftItem) =>
-(
-    <NftCard {...NftItem} key={NftItem.id}/>)
-        )}
-
-  </div>
+      <div class="grid-container max-w-screen-2xl m-auto">
+        {props.data.map((NftItem) => (
+          <NftCard {...NftItem} key={NftItem.id} />
+        ))}
+      </div>
     </>
   );
 });
-

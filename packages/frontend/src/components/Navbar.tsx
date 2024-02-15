@@ -33,21 +33,46 @@ export const Navbar = component$(() => {
     //   to: "0x1bb98172f268F6e3F966c16D4988e0837ADf89Ce",
     //   value: parseEther("0.2"),
     // });
-    const abi = [
-      "function stake() public payable",
-      "function timeLeft() public view returns (uint256)",
-      "function execute() public returns (uint256)",
+    const NftMarketPlaceAbi = [
+      "function buyNFT(address collectionAddress, uint256 tokenId, address tokenOwner)",
+      "function cancelSale(address collectionAddress, uint256 tokenId, address tokenOwner)",
+      "function startsaleNFT(address collectionAddress, string memory collectionName, uint256 price, uint256 tokenId)",
+      "function returnCollections() public view returns (address[] memory)",
+      "function createCollection(string memory name, string memory tokenSymbol, string memory logo)",
+      "function viewNFTs() public view returns (TokenStructs.ListedToken[] memory)",
+      "function viewUserCollection(address userAddr, address collectionAddr) public view returns (NFTCollection memory)",
+    ];
+    const NftCollectionAbi = [
+      "function mint(address to, uint256 tokenId, uint256 amount) public",
     ];
 
     // Create a contract; connected to a Provider, so it may
     // only access read-only methods (like view and pure)
-    const contract = new Contract(
-      "0xC84D74BbfBbBdc927ff00fb969F65A5aa860F597",
-      abi,
+    const NftMarketPlaceContract = new Contract(
+      "0xd2a47Ed9C5D417fb2858bC0B689fbF61c6B4D7d3",
+      NftMarketPlaceAbi,
       signer,
     );
 
-    const tx = await contract.stake({ value: ethers.parseEther("0.1") });
+    const NftCollectionContract = new Contract(
+      "0xd2a47Ed9C5D417fb2858bC0B689fbF61c6B4D7d3",
+      NftCollectionAbi,
+      signer,
+    );
+    //
+    // const tx = await contract.call(
+    //   "0x1bb98172f268F6e3F966c16D4988e0837ADf89Ce",
+    //   { value: ethers.parseEther("0.1") },
+    // );
+    // console.log(tx);
+
+    console.log(await NftMarketPlaceContract.print());
+
+    await NftCollectionContract.mint(
+      "0x26C063B43d2d46CAc149dEE9BbcAD9e768FdEF9b",
+      1,
+      1,
+    );
     // await tx.wait();
     // if (ethereum) {
     //   const wallet = await ethereum.request({
