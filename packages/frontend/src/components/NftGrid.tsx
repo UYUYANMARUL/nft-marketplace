@@ -31,7 +31,7 @@ export const NftGrid = component$<NftGridProps>((props) => {
 
   return (
     <>
-      <div class="grid-container max-w-screen-2xl m-auto">
+      <div class="grid-container max-w-screen-2xl m-auto mt-8 mb-8">
         {props.data.map((NftItem) => (
           <NftCard {...NftItem} key={NftItem.id} />
         ))}

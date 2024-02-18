@@ -1,6 +1,7 @@
 import { component$, $, useStore } from "@builder.io/qwik";
 import { routeLoader$, type DocumentHead } from "@builder.io/qwik-city";
 import type { NftCardProps } from "~/components/NftCard";
+import { NftCollectionSlider } from "~/components/NftCollectionSlider";
 import { NftGrid } from "~/components/NftGrid";
 //
 // const { chains, provider } = configureChains(
@@ -17,6 +18,7 @@ export default component$(() => {
   return (
     <>
       <div class="mx-6">
+        <NftCollectionSlider />
         <NftGrid data={NftGridData.value} />
       </div>
     </>
@@ -37,13 +39,13 @@ const videos: NftCardProps[] = [
     id: "1",
     name: "CSS Anchor Is The Best New CSS Feature Since Flexbox",
 
-    img: "https://i.ytimg.com/vi/B4Y9Ed4lLAI/maxresdefault.jpg",
+    img: "https://i.seadn.io/s/raw/files/c43f2d06c168b926f25e7f5f008ea827.jpg?auto=format&dpr=1&h=500&fr=1",
   },
   {
     id: "2",
     name: "NEW Way To Create Variables In JavaScript",
 
-    img: "https://f8n-production.imgix.net/worlds/zfwnpehvs.jpeg?q=70&w=1080&fit=crop&dpr=2",
+    img: "https://i.seadn.io/s/raw/files/c43f2d06c168b926f25e7f5f008ea827.jpg?auto=format&dpr=1&h=500&fr=1",
   },
   {
     id: "3",
@@ -53,13 +55,13 @@ const videos: NftCardProps[] = [
   },
   {
     id: "4",
-    name: "Quick guide to CSS focus states",
+    name: "Quick",
 
     img: "https://i.seadn.io/gae/eUfns98DnUkgRQPvpsA55LeTCkF8_t6EWUflo3KOTYSbFUgZd3SBm9_-fFIKpD1Tp1xNyBjHDfhS5-b7qfQwX2nPIAp4WC_twZ7bTQ?auto=format&dpr=1&h=500&fr=1",
   },
   {
     id: "5",
-    name: "I Cannot Believe React Made A Hook For This",
+    name: "I",
 
     img: "https://i.seadn.io/s/raw/files/38cf27c2c294f7a21856e7a6852a1f0c.jpg?auto=format&dpr=1&h=500&fr=1",
   },

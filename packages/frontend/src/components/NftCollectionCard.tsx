@@ -32,7 +32,7 @@ border:  solid 2px rgb(70,70,70);
   return (
     <>
       <div
-        class="container flex flex-col gap-2 rounded-xl py-8"
+        class="container flex flex-col gap-2 rounded-xl"
         style="background-color:rgb(30,35,35);"
       >
         <Link
