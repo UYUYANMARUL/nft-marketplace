@@ -1,7 +1,7 @@
 import { component$, $, useStore } from "@builder.io/qwik";
 import { routeLoader$, type DocumentHead } from "@builder.io/qwik-city";
 import type { NftCardProps } from "~/components/NftCard";
-import { NftGrid } from "~/components/NftGrid";
+import { NftCollectionGrid } from "~/components/NftCollectionGrid";
 //
 // const { chains, provider } = configureChains(
 //   [chain.mainnet, chain.sepolia],
@@ -16,8 +16,11 @@ export default component$(() => {
   const NftGridData = useData();
   return (
     <>
-      <div class="mx-6">
-        <NftGrid data={NftGridData.value} />
+      <div class="flex flex-col">
+        <div class="bg-white h-full top-0 w-64">asd</div>
+        <div class="mx-6">
+          <NftCollectionGrid data={NftGridData.value} />
+        </div>
       </div>
     </>
   );

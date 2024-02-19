@@ -20,7 +20,7 @@ export const NftCardInfo = component$(() => {
 
   return (
     <>
-      <div class="mt-8 mb-8 w-full justify-between flex flex-col items-center">
+      <div class="bg-#333 p-4 rounded-xl mt-8 mb-8 w-full justify-between flex flex-col items-center">
         <div class="w-5/6 flex justify-between">
           <span class="text-xl">Name:{}</span>
           <Link>CollectionName</Link>

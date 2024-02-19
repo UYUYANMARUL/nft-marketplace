@@ -1,0 +1,11 @@
+.child {
+  transition: 0.5s ease-in-out;
+  background-color: black;
+}
+
+.container:hover .child {
+  transform: scale(1.05);
+  z-index: 99;
+
+  border: solid 2px rgb(70, 70, 70);
+}

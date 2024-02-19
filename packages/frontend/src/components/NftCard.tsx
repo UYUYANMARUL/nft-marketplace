@@ -37,7 +37,7 @@ border:  solid 2px rgb(70,70,70);
       >
         <Link
           onClick$={() => display(`/assets/etherum/${props.name}`)}
-          class="relative my-auto aspect-video"
+          class="relative hover:cursor-pointer my-auto aspect-square"
         >
           <img
             style={{ viewTransitionName: `nftImg${props.name}` }}

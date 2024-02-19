@@ -5,15 +5,15 @@ type NftGridProps = {
   data: NftCardProps[];
 };
 
-export const NftGrid = component$<NftGridProps>((props) => {
+export const NftCollectionGrid = component$<NftGridProps>((props) => {
   useStylesScoped$(`
 .grid-container {
   /**
    * User input values.
    */
   --grid-layout-gap: 24px;
-  --grid-column-count: 3;
-  --grid-item--min-width: 276px;
+  --grid-column-count: 6;
+  --grid-item--min-width: 200px;
 
   /**
    * Calculated values.
@@ -31,13 +31,10 @@ export const NftGrid = component$<NftGridProps>((props) => {
 
   return (
     <>
-      <div class="w-full flex flex-col max-w-screen-2xl items-center m-auto">
-        <span class="text-3xl text-white p-6">Top Nfts</span>
-        <div class="grid-container mt-8 mb-8 w-full">
-          {props.data.map((NftItem) => (
-            <NftCard {...NftItem} key={NftItem.id} />
-          ))}
-        </div>
+      <div class="grid-container max-w-screen-2xl m-auto mt-8 mb-8">
+        {props.data.map((NftItem) => (
+          <NftCard {...NftItem} key={NftItem.id} />
+        ))}
       </div>
     </>
   );

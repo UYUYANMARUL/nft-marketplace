@@ -50,7 +50,7 @@ export const Navbar = component$(() => {
       {/*     </ul> */}
       {/*   </div> */}
       {/* </nav> */}
-      <nav class="bg-#333 w-full flex  px-8 h-20 sticky top-0 z-50 ">
+      <nav class="bg-#233 w-full flex  px-8 h-20 sticky top-0 z-50 ">
         <div class="w-[80%] inline-flex justify-between items-center mx-auto">
           <div class="inline-flex">
             <Link class="_o6689fn" href="/">
@@ -75,7 +75,14 @@ export const Navbar = component$(() => {
                 </svg>
               </div>
             </Link>
+            <Link
+              class="hover:text-red-100 hover:cursor-pointer ml-16"
+              href="/studio/create/"
+            >
+              Create
+            </Link>
           </div>
+
           <div class="hidden sm:block flex-shrink flex-grow-0 justify-start px-2">
             <div class="inline-block">
               <div class="inline-flex items-center max-w-full">
