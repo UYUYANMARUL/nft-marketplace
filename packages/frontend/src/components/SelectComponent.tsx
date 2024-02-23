@@ -25,7 +25,7 @@ export function ReactSelectScrollable() {
     >
       <SelectTrigger className="w-full h-16">
         <SelectValue />
-        <div className="flex bg-gray-50">asd</div>
+        <div className="flex bg-gray-50 w-full">asd</div>
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>

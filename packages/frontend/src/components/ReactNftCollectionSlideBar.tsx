@@ -17,13 +17,15 @@ import Autoplay from "embla-carousel-autoplay";
 
 export function CarouselSize({
   navigate,
+  data,
 }: {
   navigate: (path: string) => any;
+  data: any;
 }) {
   let pos: { X: number; Y: number } = { X: -1, Y: -1 };
   const tolerance = 3;
-  let canNavigate = false;
-  function CancelNavigate(e: any) {
+  let canNavigate: boolean = false;
+  function CancelNavigate(e: any, index: number) {
     if (
       !(
         Math.abs(e.pageX) - pos.X < tolerance &&
@@ -34,16 +36,20 @@ export function CarouselSize({
     }
   }
 
-  function SetPos(e: any) {
+  function SetPos(e: any, index: number) {
     pos = { X: e.pageX, Y: e.pageY };
     canNavigate = true;
   }
 
-  function CheckToNavigate(e: any, path: string) {
+  function CheckToNavigate(e: any, path: string, index: number) {
+    console.log(canNavigate);
     if (canNavigate) {
       navigate(path);
       canNavigate = false;
     }
+  }
+  function MouseEnter(index: number) {
+    canNavigate = false;
   }
   return (
     <Carousel
@@ -57,31 +63,35 @@ export function CarouselSize({
         }),
       ]}
     >
-      <CarouselContent className=" ">
-        {Array.from({ length: 8 }).map((_, index) => (
-          <CarouselItem
-            key={index}
-            className=" md:basis-1/2 lg:basis-1/3 hover:cursor-pointer "
-          >
-            <div>
-              <Card
-                className="bg-#333 border-none rounded-xl"
-                onMouseDown={(e) => SetPos(e)}
-                onMouseUp={(e) => CheckToNavigate(e, "asd")}
-                onMouseMove={(e) => CancelNavigate(e)}
-              >
-                <CardContent className=" flex aspect-square items-center justify-center p-6 hover:bg-zinc-50 bg-#1E2323 rounded-xl">
-                  <img
-                    width="100"
-                    height="100"
-                    src="https://i.seadn.io/s/raw/files/c43f2d06c168b926f25e7f5f008ea827.jpg?auto=format&dpr=1&h=500&fr=1"
-                    className=" bg-#333 w-full h-full object-cover overflow-hidden object-center rounded-xl"
-                  />
-                </CardContent>
-              </Card>
-            </div>
-          </CarouselItem>
-        ))}
+      <CarouselContent>
+        {data &&
+          data.map((value: any, index: number) => (
+            <CarouselItem
+              key={index}
+              className="md:basis-1/2 lg:basis-1/3 hover:cursor-pointer "
+            >
+              <div>
+                <Card
+                  className="bg-#DDA15E border-none rounded-xl"
+                  onMouseDown={(e) => SetPos(e, index)}
+                  onMouseUp={(e) =>
+                    CheckToNavigate(e, `/collection/${value[1]}`, index)
+                  }
+                  onMouseMove={(e) => CancelNavigate(e, index)}
+                  onMouseEnter={(e) => MouseEnter(index)}
+                >
+                  <CardContent className="flex aspect-square items-center justify-center p-0 hover:bg-zinc-50 border border-#857E7B rounded-xl">
+                    <img
+                      width="1000"
+                      height="1000"
+                      src={value[2]}
+                      className=" bg-#DDA15E w-full h-full object-cover overflow-hidden object-center rounded-xl"
+                    />
+                  </CardContent>
+                </Card>
+              </div>
+            </CarouselItem>
+          ))}
       </CarouselContent>
       <CarouselPrevious className="ml-7" />
       <CarouselNext className="mr-7" />

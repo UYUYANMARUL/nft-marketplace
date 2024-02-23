@@ -7,6 +7,7 @@ import {
   useVisibleTask$,
 } from "@builder.io/qwik";
 import { routeLoader$, type RequestHandler } from "@builder.io/qwik-city";
+import { Footer } from "~/components/Footer";
 import { Navbar } from "~/components/Navbar";
 
 export const onGet: RequestHandler = async ({ cacheControl }) => {
@@ -53,7 +54,9 @@ export default component$(() => {
   useContextProvider(UserContext, userInfo);
   return (
     <>
-      <Navbar /> <Slot />
+      <Navbar />
+      <Slot />
+      <Footer />
     </>
   );
 });

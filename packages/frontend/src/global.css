@@ -3,7 +3,7 @@
 @tailwind utilities;
 @import "toastr";
 body {
-  background-color: rgb(18, 18, 18);
+  background-color: #dda15e;
 }
 /* Disables the selection */
 .disableselect {

@@ -1,14 +1,25 @@
 import { component$, $, useStylesScoped$ } from "@builder.io/qwik";
 import { Link, useNavigate } from "@builder.io/qwik-city";
-import { NftCardInfo } from "./NftCardInfo";
+import { NftCardInfo, NftCardInfoProps } from "./NftCardInfo";
 
 export type NftCardProps = {
   img: string;
   id: string;
   name: string;
+  price: number;
+  collectionName: string;
+  collectionAddress: string;
+  ownerAddress: string;
+  tokenId: string;
 };
 
-export const NftCard = component$<NftCardProps>((props) => {
+export const NftCollectionCard = component$<NftCardProps>((props) => {
+  const nftCardInfoProps: NftCardInfoProps = {
+    nftName: props.name,
+    nftPrice: props.price,
+    nftCollectionName: props.collectionName,
+    nftCollectionAddress: props.collectionAddress,
+  };
   const nav = useNavigate();
   const display = $((path: string) => {
     if (!document.startViewTransition) {
@@ -32,12 +43,12 @@ border:  solid 2px rgb(70,70,70);
   return (
     <>
       <div
-        class="container flex flex-col gap-2 rounded-xl"
+        class="container flex flex-col gap-2 rounded-xl py-8"
         style="background-color:rgb(30,35,35);"
       >
         <Link
-          onClick$={() => display(`/assets/etherum/${props.name}`)}
-          class="relative my-auto aspect-video"
+          onClick$={() => display(`/assets/etherum/${props.id}`)}
+          class="relative hover:cursor-pointer my-auto aspect-square"
         >
           <img
             style={{ viewTransitionName: `nftImg${props.name}` }}
@@ -50,7 +61,6 @@ border:  solid 2px rgb(70,70,70);
             {/* { $formatDuration(props.duration) } */}
           </div>
         </Link>
-        <NftCardInfo />
         {/* <Link href="`/@${props.channel.id}`" class="flex-shrink-0"></Link> */}
       </div>
     </>

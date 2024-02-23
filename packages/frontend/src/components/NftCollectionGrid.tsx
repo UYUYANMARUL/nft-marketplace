@@ -1,5 +1,6 @@
 import { component$, useStore, useStylesScoped$ } from "@builder.io/qwik";
 import { NftCard, NftCardProps } from "./NftCard";
+import { NftCollectionCard } from "./NftCollectionCard";
 
 type NftGridProps = {
   data: NftCardProps[];
@@ -33,7 +34,7 @@ export const NftCollectionGrid = component$<NftGridProps>((props) => {
     <>
       <div class="grid-container max-w-screen-2xl m-auto mt-8 mb-8">
         {props.data.map((NftItem) => (
-          <NftCard {...NftItem} key={NftItem.id} />
+          <NftCollectionCard {...NftItem} key={NftItem.id} />
         ))}
       </div>
     </>

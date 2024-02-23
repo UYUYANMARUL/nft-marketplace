@@ -3,16 +3,16 @@ import { Link } from "@builder.io/qwik-city";
 import { Button as ReactButton } from "./ui/button";
 import { qwikify$ } from "@builder.io/qwik-react";
 
-type NftCardInfo = {
+export type NftCardInfoProps = {
   nftName: string;
   nftCollectionName: string;
   nftCollectionAddress: string;
-  nftPrice: string;
+  nftPrice: number;
 };
 
 export const Button = qwikify$(ReactButton, { eagerness: "hover" });
 
-export const NftCardInfo = component$(() => {
+export const NftCardInfo = component$<NftCardInfoProps>((props) => {
   useStylesScoped$(`
 `);
 
@@ -22,12 +22,14 @@ export const NftCardInfo = component$(() => {
     <>
       <div class="bg-#333 p-4 rounded-xl mt-8 mb-8 w-full justify-between flex flex-col items-center">
         <div class="w-5/6 flex justify-between">
-          <span class="text-xl">Name:{}</span>
-          <Link>CollectionName</Link>
+          <span class="text-xl">Name: {props.nftName}</span>
+          <Link href={props.nftCollectionAddress}>
+            Collection Name: {props.nftCollectionName}
+          </Link>
         </div>
         <div class="pt-4 w-3/4 flex justify-between">
-          <span>Price</span>
-          <Button>asd</Button>
+          <span>Price: {props.nftPrice}</span>
+          <Button className="bg-#DDA15E hover:bg-#606C38">Buy</Button>
         </div>
       </div>
     </>

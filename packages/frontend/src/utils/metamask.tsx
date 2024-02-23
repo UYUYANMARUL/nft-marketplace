@@ -1,6 +1,20 @@
 import { $ } from "@builder.io/qwik";
-import { ethers } from "ethers";
+import { AbstractProvider, Contract, JsonRpcSigner, ethers } from "ethers";
 import { notify } from "./notification";
+
+export const NftMarketPlaceAbi = [
+  "function buyNFT(address collectionAddress, uint256 tokenId, address tokenOwner)",
+  "function cancelSale(address collectionAddress, uint256 tokenId, address tokenOwner)",
+  "function startsaleNFT(address collectionAddress, string memory collectionName, uint256 price, uint256 tokenId)",
+  "function viewCollections() public view returns ((address collectionAddr,address ownerOfCollection,string collectionUri)[])",
+  "function createCollection(string memory name, string memory tokenSymbol, string memory logo)",
+  "function viewNFTs() public view returns ()",
+  "function viewUserCollections(address userAddr) public view returns ()",
+];
+
+export const NftCollectionAbi = [
+  "function mint(address to, uint256 tokenId, uint256 amount, string memory tokenURI) public",
+];
 
 export const connectToMetaMask = $(async () => {
   // const ethereum = window.ethereum;
@@ -9,10 +23,6 @@ export const connectToMetaMask = $(async () => {
   // Get write access as an account by getting the signer
   // const signer = await provider.getSigner();
   if (!window.etherum) {
-    notify("hi", {});
-
-    return "";
-  } else {
     const provider = new ethers.BrowserProvider(window.ethereum);
     // const provider = ethers.getDefaultProvider();
 
@@ -20,6 +30,8 @@ export const connectToMetaMask = $(async () => {
     // operations, which will be performed by the private key
     // that MetaMask manages for the user.
     const signer = await provider.getSigner();
+    console.log(signer.address);
+    console.log("asd");
     const message = "sign into ethers.org?";
 
     const sig = await signer.signMessage(message);
@@ -45,18 +57,6 @@ export const connectToMetaMask = $(async () => {
 //   to: "0x1bb98172f268F6e3F966c16D4988e0837ADf89Ce",
 //   value: parseEther("0.2"),
 // });
-// const NftMarketPlaceAbi = [
-//   "function buyNFT(address collectionAddress, uint256 tokenId, address tokenOwner)",
-//   "function cancelSale(address collectionAddress, uint256 tokenId, address tokenOwner)",
-//   "function startsaleNFT(address collectionAddress, string memory collectionName, uint256 price, uint256 tokenId)",
-//   "function returnCollections() public view returns (address[] memory)",
-//   "function createCollection(string memory name, string memory tokenSymbol, string memory logo)",
-//   "function viewNFTs() public view returns ()",
-// ];
-//
-// const NftCollectionAbi = [
-//   "function mint(address to, uint256 tokenId, uint256 amount, string memory tokenURI) public",
-// ];
 //
 // Create a contract; connected to a Provider, so it may
 // only access read-only methods (like view and pure)
@@ -111,3 +111,125 @@ export const connectToMetaMask = $(async () => {
 //   console.log(connection.account);
 //   console.log(sign);
 // });
+
+const getNfts = $(async (signer: JsonRpcSigner) => {
+  const provider = new ethers.BrowserProvider(window.ethereum);
+  const NftMarketPlaceContract = new Contract(
+    "0xa80E53DEF77767A3b7A6C00C4A77129575fe7DA2",
+    NftMarketPlaceAbi,
+    signer,
+  );
+  return await NftMarketPlaceContract.viewNFTs();
+});
+
+const buyNFT = $(
+  async (
+    signer: JsonRpcSigner,
+    collectionAddress: string,
+    tokenId: number,
+    tokenOwner: string,
+  ) => {
+    const provider = new ethers.BrowserProvider(window.ethereum);
+    const NftMarketPlaceContract = new Contract(
+      "0xa80E53DEF77767A3b7A6C00C4A77129575fe7DA2",
+      NftMarketPlaceAbi,
+      signer,
+    );
+
+    return await NftMarketPlaceContract.buyNFT(
+      collectionAddress,
+      tokenId,
+      tokenOwner,
+    );
+  },
+);
+
+const createCollection = $(
+  async (
+    signer: JsonRpcSigner,
+    name: string,
+    tokenSymbol: string,
+    logo: string,
+  ) => {
+    const provider = new ethers.BrowserProvider(window.ethereum);
+    const NftMarketPlaceContract = new Contract(
+      "0xa80E53DEF77767A3b7A6C00C4A77129575fe7DA2",
+      NftMarketPlaceAbi,
+      signer,
+    );
+    return await NftMarketPlaceContract.createCollection(
+      name,
+      tokenSymbol,
+      logo,
+    );
+  },
+);
+
+const sellNFT = $(
+  async (
+    signer: JsonRpcSigner,
+    collectionAddress: string,
+    collectionName: number,
+    price: number,
+    tokenId: number,
+  ) => {
+    const provider = new ethers.BrowserProvider(window.ethereum);
+    const NftMarketPlaceContract = new Contract(
+      "0xa80E53DEF77767A3b7A6C00C4A77129575fe7DA2",
+      NftMarketPlaceAbi,
+      signer,
+    );
+    return await NftMarketPlaceContract.startsaleNFT(
+      collectionAddress,
+      collectionName,
+      price,
+      tokenId,
+    );
+  },
+);
+
+const cancelNFTSale = $(
+  async (signer: JsonRpcSigner, collectionAddress: string, tokenId: string) => {
+    const provider = new ethers.BrowserProvider(window.ethereum);
+    const NftMarketPlaceContract = new Contract(
+      "0xa80E53DEF77767A3b7A6C00C4A77129575fe7DA2",
+      NftMarketPlaceAbi,
+      signer,
+    );
+    return await NftMarketPlaceContract.cancelSale(collectionAddress, tokenId);
+  },
+);
+
+export const viewCollections = $(
+  async (signer: JsonRpcSigner | AbstractProvider) => {
+    // const provider = ethers.getDefaultProvider();
+
+    // It also provides an opportunity to request access to write
+    // operations, which will be performed by the private key
+    // that MetaMask manages for the user.
+    const NftMarketPlaceContract = new Contract(
+      "0x863ED6CE4afB46BE2c9e557ED4f8ccb706C15E88",
+      NftMarketPlaceAbi,
+      signer,
+    );
+
+    return await NftMarketPlaceContract.viewCollections();
+  },
+);
+
+export const viewUserCollections = $(
+  async (signer: JsonRpcSigner | AbstractProvider, address: string) => {
+    // const provider = ethers.getDefaultProvider();
+
+    // It also provides an opportunity to request access to write
+    // operations, which will be performed by the private key
+    // that MetaMask manages for the user.
+    const NftMarketPlaceContract = new Contract(
+      "0x863ED6CE4afB46BE2c9e557ED4f8ccb706C15E88",
+      NftMarketPlaceAbi,
+      signer,
+    );
+    const data = await NftMarketPlaceContract.viewUserCollections(address);
+    return data;
+  },
+);
